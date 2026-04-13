@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Raju Koorapati — Java Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181b22;
+    --border: rgba(255,255,255,0.07);
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --gold-dim: rgba(201,168,76,0.15);
+    --text: #e8e6e1;
+    --text-muted: #7a7d8a;
+    --text-dim: #4a4d5a;
+    --accent: #4a7cf7;
+    --green: #3ecf8e;
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.5;
+  }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 5%;
+    background: rgba(10,12,16,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--gold);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.25s;
+  }
+
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 0.5rem 1.2rem;
+    text-decoration: none;
+    transition: background 0.25s, color 0.25s;
+  }
+
+  .nav-cta:hover { background: var(--gold); color: var(--bg); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 8rem 5% 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(201,168,76,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201,168,76,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(74,124,247,0.06) 0%, transparent 70%);
+    bottom: 50px;
+    left: 200px;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    max-width: 900px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold-dim);
+    padding: 0.4rem 1rem;
+    background: var(--gold-dim);
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    font-weight: 600;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.3rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+
+  .hero-name span { color: var(--gold); }
+
+  .hero-role {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-weight: 300;
+    color: var(--text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.8;
+    margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1.2rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    transition: background 0.25s, transform 0.2s;
+  }
+
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.25s, color 0.25s, transform 0.2s;
+  }
+
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-stats {
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+    animation: fadeLeft 0.9s 0.5s ease both;
+  }
+
+  .stat-item {
+    text-align: right;
+    border-right: 2px solid var(--gold);
+    padding-right: 1.5rem;
+  }
+
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeLeft {
+    from { opacity: 0; transform: translate(30px, -50%); }
+    to { opacity: 1; transform: translate(0, -50%); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 6rem 5%;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+  }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.7rem;
+    display: block;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .section-line {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin-top: 1.2rem;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--surface); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--text-muted);
+    margin-bottom: 1.2rem;
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+
+  .about-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .highlight-card {
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    border-left: 3px solid var(--gold);
+    transition: transform 0.25s, border-color 0.25s;
+  }
+
+  .highlight-card:hover { transform: translateX(6px); border-left-color: var(--gold-light); }
+
+  .highlight-card h4 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .highlight-card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* ─── SKILLS ─── */
+  #skills { background: var(--bg); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+  }
+
+  .skill-category {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .skill-category::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold), transparent);
+  }
+
+  .skill-category:hover { border-color: rgba(201,168,76,0.3); }
+
+  .skill-category-title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .skill-tag {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+  }
+
+  .skill-tag:hover { background: var(--gold-dim); border-color: var(--gold); color: var(--gold); }
+
+  /* ─── EXPERIENCE ─── */
+  #experience { background: var(--surface); }
+
+  .timeline {
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    padding-bottom: 3.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .timeline-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.5rem;
+    top: 0.4rem;
+    width: 12px;
+    height: 12px;
+    background: var(--gold);
+    border: 2px solid var(--bg);
+    transform: translateX(-5.5px);
+  }
+
+  .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .exp-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .exp-company {
+    font-size: 0.9rem;
+    color: var(--gold);
+    font-weight: 500;
+    margin-top: 0.2rem;
+  }
+
+  .exp-date {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+    background: var(--surface2);
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .exp-bullets {
+    list-style: none;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .exp-bullets li {
+    display: flex;
+    gap: 0.8rem;
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .exp-bullets li::before {
+    content: '▸';
+    color: var(--gold);
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── PROJECTS ─── */
+  #projects { background: var(--bg); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+  }
+
+  .project-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    position: relative;
+  }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(201,168,76,0.04), transparent);
+    pointer-events: none;
+  }
+
+  .project-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.1);
+  }
+
+  .project-header {
+    padding: 2rem 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .project-num {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--gold-dim);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .project-year {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    border: 1px solid var(--border);
+    padding: 0.25rem 0.6rem;
+  }
+
+  .project-body { padding: 1rem 2rem 2rem; }
+
+  .project-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .project-subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  .project-desc {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-bullets li {
+    display: flex;
+    gap: 0.7rem;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .project-bullets li::before {
+    content: '▸';
+    color: var(--gold);
+    font-size: 0.75rem;
+    margin-top: 0.15rem;
+    flex-shrink: 0;
+  }
+
+  .project-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .stack-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    background: var(--gold-dim);
+    padding: 0.25rem 0.65rem;
+  }
+
+  /* ─── EDUCATION & CERTS ─── */
+  #education { background: var(--surface); }
+
+  .edu-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .edu-card {
+    padding: 2rem;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    position: relative;
+  }
+
+  .edu-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 100%);
+  }
+
+  .edu-badge {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .edu-degree {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-institution {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    color: var(--text-dim);
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .cert-list { display: flex; flex-direction: column; gap: 1rem; }
+
+  .cert-item {
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    padding: 1.2rem;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    transition: border-color 0.25s;
+  }
+
+  .cert-item:hover { border-color: rgba(201,168,76,0.3); }
+
+  .cert-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+
+  .cert-info h4 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+
+  .cert-info p { font-size: 0.8rem; color: var(--text-dim); }
+
+  /* ─── CONTACT ─── */
+  #contact {
+    background: var(--bg);
+    text-align: center;
+    padding: 7rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  #contact::before {
+    content: '';
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .contact-content { position: relative; max-width: 700px; margin: 0 auto; }
+
+  .contact-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+
+  .contact-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-title span { color: var(--gold); }
+
+  .contact-desc {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 3rem;
+  }
+
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border: 1px solid var(--border);
+    transition: color 0.25s, border-color 0.25s, transform 0.2s;
+  }
+
+  .contact-link:hover { color: var(--gold); border-color: var(--gold); transform: translateY(-3px); }
+
+  .contact-link-icon { font-size: 1.1rem; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 2rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-copy {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.08em;
+  }
+
+  .footer-mark {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold);
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .hero-stats { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .edu-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 4%; }
+    section { padding: 4rem 4%; }
+    .exp-header { flex-direction: column; }
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--gold); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">R.K.</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:rajukoorapati1519@gmail.com" class="nav-cta">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name">Raju<br/><span>Koorapati</span></h1>
+    <p class="hero-role">Junior Software Developer · Java · Microservices · Spring Boot · RestAPI's · Hybernate · Cloud</p>
+    <p class="hero-desc">
+      Engineering high-performance, cloud-native Java applications with 2+ years of production experience. 
+      Specializing in Spring Boot microservices, RESTful API design, and scalable backend systems on Microsoft Azure.
+    </p>
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">↓ View My Work</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">2+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6+</div>
+      <div class="stat-label">Backend Modules</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">35%</div>
+      <div class="stat-label">Query Optimization</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99.5%</div>
+      <div class="stat-label">Uptime SLA</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header reveal">
+    <span class="section-label">// 01. Who I Am</span>
+    <h2 class="section-title">Professional Summary</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>
+        I'm a Software Developer with over 2 years of experience engineering high-performance, cloud-native Java applications for production environments. My core expertise lies in Spring Boot microservices, RESTful API design, and database optimization.
+      </p>
+      <p>
+        I have a proven track record of architecting scalable backend systems deployed on Microsoft Azure with Kubernetes, consistently reducing latency and improving system reliability.
+      </p>
+      <p>
+        As a collaborative Agile practitioner, I communicate clearly across engineering, QA, and product teams — consistently shipping features on time and at the highest quality standards, with a defect escape rate of under 5%.
+      </p>
+    </div>
+    <div class="about-highlights reveal">
+      <div class="highlight-card">
+        <h4>Backend Architecture</h4>
+        <p>Decomposed monolithic systems into independently deployable microservices, improving release frequency by 40% and enabling zero-downtime deployments.</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Security-First Design</h4>
+        <p>Designed and secured RESTful APIs with token-based authentication and RBAC following OWASP standards — passing all third-party security audits with zero critical findings.</p>
+      </div>
+      <div class="highlight-card">
+        <h4>Cloud & DevOps</h4>
+        <p>Deployed containerized microservices to Azure AKS with health probes, autoscaling, and rolling update strategies for resilient production releases.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header reveal">
+    <span class="section-label">// 02. What I Know</span>
+    <h2 class="section-title">Technical Skills</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Languages</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Java 11</span>
+        <span class="skill-tag">JavaScript (ES6+)</span>
+        <span class="skill-tag">SQL</span>
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Frameworks</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Spring Boot</span>
+        <span class="skill-tag">Spring MVC</span>
+        <span class="skill-tag">Spring Security</span>
+        <span class="skill-tag">Hibernate / JPA</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Architecture</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Microservices</span>
+        <span class="skill-tag">RESTful APIs</span>
+        <span class="skill-tag">Event-Driven Design</span>
+        <span class="skill-tag">MVC Pattern</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Databases</div>
+      <div class="skill-tags">
+        <span class="skill-tag">MySQL</span>
+        <span class="skill-tag">SQL Server</span>
+        <span class="skill-tag">Schema Design</span>
+        <span class="skill-tag">Query Optimization</span>
+        <span class="skill-tag">Indexing</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Cloud & DevOps</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Microsoft Azure</span>
+        <span class="skill-tag">Kubernetes (AKS)</span>
+        <span class="skill-tag">Docker</span>
+        <span class="skill-tag">CI/CD Pipelines</span>
+      </div>
+    </div>
+    <div class="skill-category reveal">
+      <div class="skill-category-title">Tools & Workflow</div>
+      <div class="skill-tags">
+        <span class="skill-tag">Git / GitHub</span>
+        <span class="skill-tag">Postman</span>
+        <span class="skill-tag">Maven</span>
+        <span class="skill-tag">IntelliJ IDEA</span>
+        <span class="skill-tag">VS Code</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header reveal">
+    <span class="section-label">// 03. Where I've Worked</span>
+    <h2 class="section-title">Work Experience</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="exp-header">
+        <div>
+          <div class="exp-title">Software Developer</div>
+          <div class="exp-company">KenzaiMind Info Solutions · Hyderabad, India</div>
+        </div>
+        <div class="exp-date">Jun 2023 – Present</div>
+      </div>
+      <ul class="exp-bullets">
+        <li>Architected and delivered 6+ production-grade backend modules using Java, Spring Boot, and RESTful APIs, serving 1,000+ daily active users with 99.5%+ uptime SLA.</li>
+        <li>Re-engineered critical database queries with Hibernate/JPA and MySQL indexing strategies, cutting average query execution time by 35% and reducing server load.</li>
+        <li>Decomposed a legacy monolithic application into independently deployable microservices (Product, Cart, Auth, Notification), improving release frequency by 40% and enabling zero-downtime deployments.</li>
+        <li>Designed and secured RESTful APIs with token-based authentication and RBAC, following OWASP security standards — passing all third-party security audits with zero critical findings.</li>
+        <li>Built responsive, cross-device UIs using HTML5, CSS3, and JavaScript (ES6+), achieving consistent rendering across Chrome, Firefox, Safari, and mobile browsers.</li>
+        <li>Deployed containerized microservices to Microsoft Azure using Kubernetes (AKS), configuring health probes, autoscaling, and rolling update strategies for resilient production releases.</li>
+        <li>Partnered with QA, design, and product teams across 12+ Agile sprints, maintaining a defect escape rate of under 5% and consistently meeting sprint velocity targets.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <span class="section-label">// 04. What I've Built</span>
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="projects-grid">
+
+    <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-num">01</div>
+        <div class="project-year">2024 – Present</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Arvan</div>
+        <div class="project-subtitle">E-Commerce Grocery Platform</div>
+        <p class="project-desc">
+          A full-stack grocery delivery application built from the ground up with real-time features, scalable microservices, and CI/CD-ready infrastructure.
+        </p>
+        <ul class="project-bullets">
+          <li>Implemented product catalog, dynamic cart, real-time offer engine, and order management modules end-to-end.</li>
+          <li>Designed a normalized MySQL schema with 15+ tables; applied composite indexing and query caching to reduce product listing load time by 28%.</li>
+          <li>Built independently scalable microservices for catalog, cart, user-auth, and payment, each containerized with Docker and orchestrated via Kubernetes on Azure.</li>
+          <li>Implemented CI/CD-ready deployment configurations, achieving a 45-minute average release cycle.</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Java</span>
+          <span class="stack-tag">GroovyScript</span>
+          <span class="stack-tag">Grails</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">Hibernate/JPA</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">Azure</span>
+          <span class="stack-tag">Kubernetes</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">JavaScript</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div class="project-card reveal">
+      <div class="project-header">
+        <div class="project-num">02</div>
+        <div class="project-year">2023</div>
+      </div>
+      <div class="project-body">
+        <div class="project-title">Secure REST API Gateway</div>
+        <div class="project-subtitle">Centralized Security Layer</div>
+        <p class="project-desc">
+          A centralized API gateway handling authentication, request routing, rate limiting, and logging — eliminating duplicated security logic across all microservices.
+        </p>
+        <ul class="project-bullets">
+          <li>Designed the gateway to eliminate duplicated security logic from 4 independent services, centralizing auth and routing.</li>
+          <li>Implemented JWT-based stateless authentication with refresh token rotation and role-based access control, securing all endpoints.</li>
+          <li>Authored 60+ automated Postman test cases covering happy paths, edge cases, and error scenarios — reducing manual QA effort by 50% per release.</li>
+        </ul>
+        <div class="project-stack">
+          <span class="stack-tag">Java</span>
+          <span class="stack-tag">Spring Boot</span>
+          <span class="stack-tag">Spring Security</span>
+          <span class="stack-tag">JWT</span>
+          <span class="stack-tag">MySQL</span>
+          <span class="stack-tag">Postman</span>
+        </div>
+      </div>
+    </div> -->
+
+  </div>
+</section>
+
+<!-- EDUCATION & CERTS -->
+<section id="education">
+  <div class="section-header reveal">
+    <span class="section-label">// 05. My Foundation</span>
+    <h2 class="section-title">Education & Certifications</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div>
+      <div class="edu-card reveal">
+        <span class="edu-badge">Degree</span>
+        <div class="edu-degree">Bachelor of Technology</div>
+        <div class="edu-degree" style="font-size:1rem; font-weight:400; color: var(--text-muted);">Electrical & Electronics Engineering</div>
+        <div class="edu-institution" style="margin-top:0.8rem;">KG Reddy College of Engineering & Technology</div>
+        <div class="edu-institution">Hyderabad, India</div>
+        <p style="font-size:0.85rem; color: var(--text-dim); margin-top:0.8rem; line-height:1.7;">
+          Complemented core engineering studies with self-directed learning in Java, Spring Boot, REST API design, and cloud-native development.
+        </p>
+        <div class="edu-meta">
+          <span>2020 – 2023</span>
+          <span>GPA: 7.0 / 10.0</span>
+        </div>
+      </div>
+    </div>
+    <div class="cert-list">
+      <div class="cert-item reveal">
+        <div class="cert-icon">🎓</div>
+        <div class="cert-info">
+          <h4>Java Spring Framework</h4>
+          <p>Advanced coursework on Spring Boot, Spring Security, and Microservices patterns</p>
+        </div>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-icon">💻</div>
+        <div class="cert-info">
+          <h4>Java Full Stack Development</h4>
+          <p>Jspiders Training & Placements — Full-stack Java development program</p>
+        </div>
+      </div>
+      <div class="cert-item reveal">
+        <div class="cert-icon">🐙</div>
+        <div class="cert-info">
+          <h4>Open Source & GitHub</h4>
+          <p>Maintains public repositories demonstrating Spring Boot microservices, API design, and Docker configurations</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-content">
+    <span class="contact-eyebrow reveal">// 06. Let's Connect</span>
+    <h2 class="contact-title reveal">Ready to Build<br/><span>Something Great?</span></h2>
+    <p class="contact-desc reveal">
+      I'm actively looking for new opportunities where I can contribute, grow, and continue building exceptional backend systems. Whether you have a role, a project, or just a question — let's talk.
+    </p>
+    <div class="contact-links reveal">
+      <a href="mailto:rajukoorapati1519@gmail.com" class="contact-link">
+        <span class="contact-link-icon">✉</span>
+        rajukoorapati1519@gmail.com
+      </a>
+      <a href="tel:+918897703748" class="contact-link">
+        <span class="contact-link-icon">☎</span>
+        +91 88977 03748
+      </a>
+      <a href="https://www.linkedin.com/in/raju-koorapati-aa7b26255/" target="_blank" class="contact-link">
+        <span class="contact-link-icon">in</span>
+        linkedin.com/in/raju-koorapati
+      </a>
+    </div>
+    <a href="mailto:rajukoorapati1519@gmail.com" class="btn-primary reveal" style="display:inline-flex; margin:0 auto;">
+      Send Me a Message →
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 Raju Koorapati · All Rights Reserved</div>
+  <div class="footer-mark">R.K.</div>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
